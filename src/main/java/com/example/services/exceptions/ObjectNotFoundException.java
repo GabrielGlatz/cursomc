@@ -1,3 +1,5 @@
+/* AQUI ESTÁ CHAMANDO A SUPERCLASSE (CATEGORIA.SERVICE.JAVA) PARA APRESENTA O ERRO (COMO SE FOSSE UMA FUNÇÃO)*/
+
 package com.example.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException {
