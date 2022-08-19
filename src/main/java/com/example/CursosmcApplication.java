@@ -13,6 +13,7 @@ import com.example.domain.Cidade;
 import com.example.domain.Cliente;
 import com.example.domain.Endereco;
 import com.example.domain.Estado;
+import com.example.domain.ItemPedido;
 import com.example.domain.Pagamento;
 import com.example.domain.PagamentoComBoleto;
 import com.example.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.example.repositories.CidadeRepository;
 import com.example.repositories.ClienteRepository;
 import com.example.repositories.EnderecoRepository;
 import com.example.repositories.EstadoRepository;
+import com.example.repositories.ItemPedidoRepository;
 import com.example.repositories.PagamentoRepository;
 import com.example.repositories.PedidoRepository;
 import com.example.repositories.ProdutoRepository;
@@ -51,10 +53,13 @@ public class CursosmcApplication implements CommandLineRunner {
 	EnderecoRepository enderecoRepository;
 	
 	@Autowired
-	PedidoRepository pedidorepository;
+	PedidoRepository pedidoRepository;
 
 	@Autowired
-	PagamentoRepository pagamentorepository;
+	PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	ItemPedidoRepository  itempedidoRepository;
 	
 	
 	public static void main(String[] args) {
@@ -92,6 +97,9 @@ public class CursosmcApplication implements CommandLineRunner {
 		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPagamento(pagto2);
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);		
 		/*
 		 * AQUI EU ADICIONEI OS PRODUTOS NAS CATEGORIAS CORRESPONDENTES, EX: NA
 		 * INFORMATICA TEM COMPUTADOR, IMPRESSORA E MOUSE
@@ -109,7 +117,14 @@ public class CursosmcApplication implements CommandLineRunner {
 		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
-
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p1.getItens().addAll(Arrays.asList(ip2));
+		
 		/* AQUI TA SALVANDO AS LISTAS */
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
@@ -117,8 +132,10 @@ public class CursosmcApplication implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
-		pedidorepository.saveAll(Arrays.asList(ped1, ped2));
-		pagamentorepository.saveAll(Arrays.asList(pagto1, pagto2));
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		itempedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
 	}
 
 }
